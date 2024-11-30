@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 
 interface BookReaderProps {
     bookContent: string;
+    theme: string;
 }
 
-const BookReader: React.FC<BookReaderProps> = ({ bookContent }) => {
+const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const pages = bookContent.split('\n\n'); 
 
@@ -21,7 +22,7 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent }) => {
     };
 
     return (
-        <div>
+        <div style={{ background: theme }}>
             <div>
                 <button onClick={prevPage} disabled={currentPage === 0}>
                     Previous

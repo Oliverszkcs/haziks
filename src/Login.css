@@ -1,83 +1,67 @@
 :root {
-    --background-color: #121212;
-    --container-background-color: #1e1e1e;
-    --text-color: #f9f9f9;
-    --heading-color: #f9f9f9;
-    --label-color: #bbbbbb;
-    --input-background-color: #333;
-    --input-border-color: #555;
-    --button-background-color: #007bff;
-    --button-hover-background-color: #0056b3;
-}
-
-body.light-theme {
     --background-color: #f9f9f9;
-    --container-background-color: #ffffff;
-    --text-color: #121212;
-    --heading-color: #121212;
-    --label-color: #333333;
-    --input-background-color: #ffffff;
-    --input-border-color: #cccccc;
+    --text-color: #333;
+    --border-color: #ccc;
     --button-background-color: #007bff;
     --button-hover-background-color: #0056b3;
 }
 
-body, html {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--background-color);
+body.black-and-white {
+    --background-color: #000;
+    --text-color: #fff;
+    --border-color: #555;
+    --button-background-color: #fff;
+    --button-hover-background-color: #ccc;
 }
 
 .Login {
-    width: 400px;
-    background-color: var(--container-background-color);
-    color: var(--text-color);
-    padding: 30px;
-    border: 1px solid #333;
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
 .Login h1 {
     text-align: center;
-    margin-bottom: 25px;
-    font-size: 28px;
-    color: var(--heading-color);
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--text-color);
 }
 
 .Login div {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .Login label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: var(--label-color);
+    color: var(--text-color);
 }
 
 .Login input {
     width: 100%;
-    padding: 10px;
+    padding: 8px;
     box-sizing: border-box;
-    border: 1px solid var(--input-border-color);
+    border: 1px solid var(--border-color);
     border-radius: 3px;
-    background-color: var(--input-background-color);
+    background-color: var(--background-color);
     color: var(--text-color);
 }
 
 .Login button {
     width: 100%;
-    padding: 12px;
-    margin-top: 15px;
+    padding: 10px;
+    margin-top: 10px;
     border: none;
     border-radius: 3px;
     background-color: var(--button-background-color);
-    color: white;
-    font-size: 18px;
+    color: var(--text-color);
+    font-size: 16px;
     cursor: pointer;
 }
 

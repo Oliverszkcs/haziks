@@ -2,29 +2,36 @@ import React, { useState } from "react";
 import "./Login.css";
 
 interface LoginProps {
-    theme: string;
-    toggleTheme: () => void;
     handleLogin: (email: string, password: string) => void;
     handleRegister: (email: string, password: string) => void;
+    theme: string;
+    toggleTheme: () => void;
 }
-export function Login({ theme, toggleTheme, handleLogin, handleRegister }: LoginProps) {
+
+export function Login({ handleLogin, handleRegister, theme, toggleTheme }: LoginProps) {
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+    let [confirmPassword, setConfirmPassword] = useState("");
     let [register, setRegister] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
-            handleRegister(email, password);
+        e.preventDefault();
         if (register) {
-           handleLogin(email, password);
+            if (password !== confirmPassword) {
+                alert("Passwords do not match");
+                return;
+            }
+            handleRegister(email, password);
         } else {
-           console.log("Logging in with", email, password);
+            handleLogin(email, password);
         }
     };
 
     return (
-        <div className="Login">
+        <div className={`Login ${theme}`}>
             <h1>{register ? "Register" : "Login"}</h1>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>                <div>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div>
                     <label>Email</label>
                     <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
                 </div>
@@ -32,13 +39,16 @@ export function Login({ theme, toggleTheme, handleLogin, handleRegister }: Login
                     <label>Password</label>
                     <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
                 </div>
+                {register && (
+                    <div>
+                        <label>Confirm Password</label>
+                        <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+                    </div>
+                )}
                 <button type="submit">{register ? "Register" : "Login"}</button>
             </form>
             <button onClick={() => setRegister(!register)} style={{ margin: '10px' }}>
                 {register ? "Login" : "Register"}
-            </button>
-            <button onClick={toggleTheme} style={{ margin: '20px', padding: '10px', fontSize: '1em' }}>
-                Switch to {theme === 'light' ? 'dark' : 'light'} theme
             </button>
         </div>
     );
