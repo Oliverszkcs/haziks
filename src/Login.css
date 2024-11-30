@@ -1,0 +1,86 @@
+:root {
+    --background-color: #121212;
+    --container-background-color: #1e1e1e;
+    --text-color: #f9f9f9;
+    --heading-color: #f9f9f9;
+    --label-color: #bbbbbb;
+    --input-background-color: #333;
+    --input-border-color: #555;
+    --button-background-color: #007bff;
+    --button-hover-background-color: #0056b3;
+}
+
+body.light-theme {
+    --background-color: #f9f9f9;
+    --container-background-color: #ffffff;
+    --text-color: #121212;
+    --heading-color: #121212;
+    --label-color: #333333;
+    --input-background-color: #ffffff;
+    --input-border-color: #cccccc;
+    --button-background-color: #007bff;
+    --button-hover-background-color: #0056b3;
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background-color);
+}
+
+.Login {
+    width: 400px;
+    background-color: var(--container-background-color);
+    color: var(--text-color);
+    padding: 30px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.Login h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: var(--heading-color);
+}
+
+.Login div {
+    margin-bottom: 20px;
+}
+
+.Login label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--label-color);
+}
+
+.Login input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--input-border-color);
+    border-radius: 3px;
+    background-color: var(--input-background-color);
+    color: var(--text-color);
+}
+
+.Login button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 3px;
+    background-color: var(--button-background-color);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.Login button:hover {
+    background-color: var(--button-hover-background-color);
+}

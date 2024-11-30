@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Login from './Login';
+import BookReader from './BookReader';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [theme, setTheme] = useState('light');
+  const [bookContent] = useState("Page 1 content\n\nPage 2 content\n\nPage 3 content");
+
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+
+  const handleLogin = (email: string, password: string) => {
+    if (email === "user@example.com" && password === "password") {
+      setIsLoggedIn(true);
+    } else {
+      alert("Invalid login credentials");
+    }
+  };
+
+  const handleRegister = (email: string, password: string) => {
+    if (email && password) {
+      setIsLoggedIn(true);
+    } else {
+      alert("Please provide valid registration details");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={`App ${theme}`}>
+      {isLoggedIn ? (
+        <BookReader bookContent={bookContent} />
+      ) : (
+        <Login 
+          theme={theme} 
+          toggleTheme={toggleTheme} 
+          handleLogin={handleLogin}
+          handleRegister={handleRegister} 
+        />
+      )}
     </div>
   );
 }
