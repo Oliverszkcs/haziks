@@ -8,6 +8,14 @@ import { Book } from "./types/Book";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [theme, setTheme] = useState("light");
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setBooks([]);
+    setSelectedBook(null);
+    setBookContent("");
+    setCurrentPage(0);
+    localStorage.removeItem("currentUserEmail");
+  };
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [bookContent, setBookContent] = useState<string>("");
@@ -125,10 +133,8 @@ function App() {
 
   return (
     <div className={`App ${theme}`}>
-      <button className="theme-toggle-button" onClick={toggleTheme}>
-        Switch to {theme === "light" ? "dark" : "light"} theme
-      </button>
       {isLoggedIn ? (
+    
         <div className="main-content">
           <BookList
             books={books}
@@ -158,6 +164,14 @@ function App() {
               }}
             />
           )}
+          <footer>
+                    <button className="theme-toggle-button" onClick={toggleTheme}>
+              Switch to {theme === "light" ? "dark" : "light"} theme
+              </button>
+              <button className="logout-button" onClick={handleLogout}>
+              Logout
+              </button>
+          </footer>
         </div>
       ) : (
         <Login

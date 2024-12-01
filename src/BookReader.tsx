@@ -16,7 +16,7 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
 
     useEffect(() => {
         const paginateText = (text: string) => {
-            return text.match(/(.|[\r\n]){1,2000}/g) || [];
+            return text.match(/(.|[\r\n]){1,1600}/g) || [];
         };
 
         setPages(paginateText(bookContent));
