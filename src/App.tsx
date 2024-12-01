@@ -3,6 +3,7 @@ import "./App.css";
 import Login from "./Login";
 import BookReader from "./BookReader";
 import BookList from "./BookList";
+import Menu from "./Menu";
 import { Book } from "./types/Book";
 
 function App() {
@@ -179,16 +180,12 @@ function App() {
                   );
                 }
               }}
+              
             />
+            
           )}
-          <footer>
-            <button className="theme-toggle-button" onClick={toggleTheme}>
-              Switch to {theme === "light" ? "dark" : "light"} theme
-            </button>
-            <button className="logout-button" onClick={handleLogout}>
-              Logout
-            </button>
-          </footer>
+          <div className="separator"></div>
+            <Menu onThemeChange={toggleTheme} onLogout={handleLogout} />
         </div>
       ) : (
         <Login

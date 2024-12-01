@@ -20,16 +20,16 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
 
     useEffect(() => {
         const paginateText = (text: string) => {
-            const words = text.split(' ');
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
             const pages: string[] = [];
             let currentPage = '';
 
-            words.forEach(word => {
-                if ((currentPage + word).length <= 1600) {
-                    currentPage += word + ' ';
+            sentences.forEach(sentence => {
+                if ((currentPage + sentence).length <= 1850) {
+                    currentPage += sentence + ' ';
                 } else {
                     pages.push(currentPage.trim());
-                    currentPage = word + ' ';
+                    currentPage = sentence + ' ';
                 }
             });
 

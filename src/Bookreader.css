@@ -14,6 +14,7 @@
     margin-left: 200px; 
     max-width: 800px; 
     margin: 0 auto; 
+    overflow: hidden;
 }
 
 .content-wrapper {
@@ -52,7 +53,6 @@
 }
 
 .book-content {
-    height: 80vh;
     overflow: hidden;
     text-align: center;
     display: flex;

@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  overflow: hidden;
 }
 
 .App-header {
@@ -83,37 +84,10 @@ body {
     margin: 0 auto; 
 }
 
-.theme-toggle-button {
-  background-color: var(--button-background-color);
-  color: var(--text-color);
-  border: none;
-  margin: 50px 0 0 5%; 
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-  white-space: nowrap; 
-  width: auto; 
-  text-align: center; 
-  min-width: fit-content;
-}
-.logout-button {
-  background-color: var(--button-background-color);
-  color: var(--text-color);
-  border: none;
-  margin: 0 0 0 5%; 
-  font-size: 1em;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
-  white-space: nowrap; 
-  width: 190px; 
-  text-align: center; 
-  min-width: fit-content;
-}
 
-
-.theme-toggle-button:hover , .logout-button:hover{
-  background-color: var(--button-hover-background-color);
-  color: var(--text-color);
+.separator {
+  width: 1px;
+  height: fill-available;
+  background-color: var(--text-color);
+  margin: 0 10px;
 }
