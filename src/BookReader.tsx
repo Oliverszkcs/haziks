@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Bookreader.css';
+import SearchBar from './SearchBar';
 
 interface BookReaderProps {
     bookContent: string;
@@ -101,25 +102,15 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
                         Next
                     </button>
                 </div>
-                <div className="search-bar">
-                    <input
-                        type="text"
-                        placeholder="Search..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <button onClick={handleSearch}>Search</button>
-                    {searchResults.length > 0 && (
-                        <div className="search-navigation">
-                            <button onClick={prevSearchResult} disabled={currentSearchIndex === 0}>
-                                Previous Result
-                            </button>
-                            <button onClick={nextSearchResult} disabled={currentSearchIndex === searchResults.length - 1}>
-                                Next Result
-                            </button>
-                        </div>
-                    )}
-                </div>
+                <SearchBar
+                    searchTerm={searchTerm}
+                    onSearchTermChange={setSearchTerm}
+                    onSearch={handleSearch}
+                    searchResults={searchResults}
+                    currentSearchIndex={currentSearchIndex}
+                    onNextResult={nextSearchResult}
+                    onPrevResult={prevSearchResult}
+                />
                 <div ref={contentRef} className="book-content">
                     <p>{highlightText(pages[currentPage], searchTerm)}</p>
                 </div>
