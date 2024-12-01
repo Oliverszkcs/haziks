@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface BookReaderProps {
     bookContent: string;
     theme: string;
+    currentPage: number;
+    onPageChange: (page: number) => void;
 }
 
-const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme }) => {
-    const [currentPage, setCurrentPage] = useState(0);
+const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage, onPageChange }) => {
     const pages = bookContent.split('\n\n'); 
 
     const nextPage = () => {
         if (currentPage < pages.length - 1) {
-            setCurrentPage(currentPage + 1);
+            onPageChange(currentPage + 1);
         }
     };
 
     const prevPage = () => {
         if (currentPage > 0) {
-            setCurrentPage(currentPage - 1);
+            onPageChange(currentPage - 1);
         }
     };
 

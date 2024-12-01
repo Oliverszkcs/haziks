@@ -23,6 +23,9 @@ body.black-and-white {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: var(--background-color);
     color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .Login h1 {
@@ -34,6 +37,7 @@ body.black-and-white {
 
 .Login div {
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .Login label {
@@ -67,4 +71,13 @@ body.black-and-white {
 
 .Login button:hover {
     background-color: var(--button-hover-background-color);
+}
+
+.Login .toggle-button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.Login .button {
+    width: 100%;
 }

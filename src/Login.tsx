@@ -47,7 +47,7 @@ export function Login({ handleLogin, handleRegister, theme, toggleTheme }: Login
                 )}
                 <button type="submit">{register ? "Register" : "Login"}</button>
             </form>
-            <button onClick={() => setRegister(!register)} style={{ margin: '10px' }}>
+            <button onClick={() => setRegister(!register)} className="toggle-button">
                 {register ? "Login" : "Register"}
             </button>
         </div>
