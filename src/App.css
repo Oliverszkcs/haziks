@@ -64,17 +64,40 @@ body {
     display: flex;
     flex-direction: row;
     height: 100vh;
+    align-items: flex-start; /* Align items to the top */
 }
 
 .book-list {
-    width: 300px;
+    width: 15%; /* Set a consistent width */
     border-right: 1px solid var(--border-color);
     padding: 20px;
     overflow-y: auto;
+    height: 100vh; /* Ensure it takes full height */
+}
+
+.book-list-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+.book-list-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.book-list-item:hover {
+    background-color: var(--button-hover-background-color);
 }
 
 .book-reader {
     flex-grow: 1;
     padding: 20px;
     overflow-y: auto;
+    height: 100vh; /* Ensure it takes full height */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content horizontally */
+    max-width: 800px; /* Set a maximum width */
+    margin: 0 auto; /* Center it horizontally */
 }

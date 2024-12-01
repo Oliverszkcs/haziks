@@ -31,19 +31,21 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
 
     return (
         <div className="book-reader" style={{ background: theme }}>
-            <div className="page-number">
-                <p>Page {currentPage + 1} of {pages.length}</p>
-            </div>
-            <div className="navigation-buttons">
-                <button onClick={() => changePage(-1)} disabled={currentPage === 0}>
-                    Previous
-                </button>
-                <button onClick={() => changePage(1)} disabled={currentPage === pages.length - 1}>
-                    Next
-                </button>
-            </div>
-            <div ref={contentRef} className="book-content">
-                <p>{pages[currentPage]}</p>
+            <div className="content-wrapper">
+                <div className="page-number">
+                    <p>Page {currentPage + 1} of {pages.length}</p>
+                </div>
+                <div className="navigation-buttons">
+                    <button onClick={() => changePage(-1)} disabled={currentPage === 0}>
+                        Previous
+                    </button>
+                    <button onClick={() => changePage(1)} disabled={currentPage === pages.length - 1}>
+                        Next
+                    </button>
+                </div>
+                <div ref={contentRef} className="book-content">
+                    <p>{pages[currentPage]}</p>
+                </div>
             </div>
         </div>
     );

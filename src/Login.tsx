@@ -28,28 +28,30 @@ export function Login({ handleLogin, handleRegister, theme, toggleTheme }: Login
     };
 
     return (
-        <div className={`Login ${theme}`}>
-            <h1>{register ? "Register" : "Login"}</h1>
-            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <div>
-                    <label>Email</label>
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-                </div>
-                {register && (
+        <div className="login-wrapper">
+            <div className={`Login ${theme}`}>
+                <h1>{register ? "Register" : "Login"}</h1>
+                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <div>
-                        <label>Confirm Password</label>
-                        <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+                        <label>Email</label>
+                        <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
                     </div>
-                )}
-                <button type="submit">{register ? "Register" : "Login"}</button>
-            </form>
-            <button onClick={() => setRegister(!register)} className="toggle-button">
-                {register ? "Login" : "Register"}
-            </button>
+                    <div>
+                        <label>Password</label>
+                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+                    </div>
+                    {register && (
+                        <div>
+                            <label>Confirm Password</label>
+                            <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required />
+                        </div>
+                    )}
+                    <button type="submit">{register ? "Register" : "Login"}</button>
+                </form>
+                <button onClick={() => setRegister(!register)} className="toggle-button">
+                    {register ? "Login" : "Register"}
+                </button>
+            </div>
         </div>
     );
 }

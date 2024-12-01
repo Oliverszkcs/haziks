@@ -12,6 +12,8 @@
     align-items: center;
     flex-grow: 1;
     margin-left: 200px; 
+    max-width: 800px; /* Set a maximum width */
+    margin: 0 auto; /* Center it horizontally */
 }
 
 .page-number {
@@ -51,4 +53,5 @@
     align-items: center;
     padding-left: 10%;
     padding-right: 10%;
+    flex-grow: 1; /* Ensure it takes available space */
 }
