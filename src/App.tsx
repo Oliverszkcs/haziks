@@ -51,9 +51,21 @@ function App() {
       const user = JSON.parse(storedUser);
       if (user.password === password) {
         setIsLoggedIn(true);
+        localStorage.setItem('currentUserEmail', email);
         const userBooks = localStorage.getItem(`${email}_books`);
         if (userBooks) {
           setBooks(JSON.parse(userBooks));
+        }
+        const lastBookId = localStorage.getItem(`${email}_lastBookId`);
+        if (lastBookId) {
+          const lastBook = books.find(book => book.id === parseInt(lastBookId, 10));
+          if (lastBook) {
+            handleBookSelect(lastBook, email);
+            const lastPage = localStorage.getItem(`${email}_${lastBookId}_currentPage`);
+            if (lastPage) {
+              setCurrentPage(parseInt(lastPage, 10));
+            }
+          }
         }
       } else {
         alert("Invalid login credentials");
@@ -72,7 +84,7 @@ function App() {
     }
   };
 
-  const handleBookSelect = async (book: Book) => {
+  const handleBookSelect = async (book: Book, email: string) => {
     setSelectedBook(book);
     const filePath = `/${book.filePath}`;
     console.log('Fetching book content from:', filePath);
@@ -84,6 +96,11 @@ function App() {
         const text = await response.text();
         setBookContent(text);
         setCurrentPage(0);
+        const lastPage = localStorage.getItem(`${email}_${book.id}_currentPage`);
+        if (lastPage) {
+            setCurrentPage(parseInt(lastPage, 10));
+        }
+        localStorage.setItem(`${email}_lastBookId`, book.id.toString());
     } catch (error) {
         console.error(error);
     }
@@ -92,7 +109,10 @@ function App() {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     if (selectedBook) {
-      localStorage.setItem(`${selectedBook.id}_currentPage`, page.toString());
+      const email = localStorage.getItem('currentUserEmail');
+      if (email) {
+        localStorage.setItem(`${email}_${selectedBook.id}_currentPage`, page.toString());
+      }
     }
   };
 
@@ -103,7 +123,7 @@ function App() {
         </button>
         {isLoggedIn ? (
             <div className="main-content">
-                <BookList books={books} onBookSelect={handleBookSelect} title="Select a Book" />
+                <BookList books={books} onBookSelect={(book) => handleBookSelect(book, localStorage.getItem('currentUserEmail') || '')} title="Select a Book" />
                 {selectedBook && (
                     <BookReader 
                         bookContent={bookContent} 
@@ -114,7 +134,7 @@ function App() {
                         onBookSelect={(bookTitle: string) => {
                             const book = books.find(b => b.title === bookTitle);
                             if (book) {
-                                handleBookSelect(book);
+                                handleBookSelect(book, localStorage.getItem('currentUserEmail') || '');
                             }
                         }}
                     />
