@@ -59,3 +59,22 @@ body {
 .App-link {
   color: var(--link-color);
 }
+
+.main-content {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.book-list {
+    width: 300px;
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.book-reader {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}

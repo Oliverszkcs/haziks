@@ -9,7 +9,7 @@ interface BookListProps {
 
 const BookList: React.FC<BookListProps> = ({ books, onBookSelect, title }) => {
   return (
-    <div>
+    <div className="book-list">
       <h1>{title}</h1> 
       <ul>
         {books.map(book => (

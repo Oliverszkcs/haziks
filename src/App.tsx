@@ -98,28 +98,36 @@ function App() {
 
   return (
     <div className={`App ${theme}`}>
-      <button onClick={toggleTheme} style={{ position: 'absolute', top: 10, right: 10 }}>
-        Toggle Theme
-      </button>
-      {isLoggedIn ? (
-        selectedBook ? (
-          <BookReader 
-            bookContent={bookContent} 
-            theme={theme} 
-            currentPage={currentPage} 
-            onPageChange={handlePageChange} 
-          />
+        <button onClick={toggleTheme} style={{ position: 'absolute', top: 10, right: 10 }}>
+            Toggle Theme
+        </button>
+        {isLoggedIn ? (
+            <div className="main-content">
+                <BookList books={books} onBookSelect={handleBookSelect} title="Select a Book" />
+                {selectedBook && (
+                    <BookReader 
+                        bookContent={bookContent} 
+                        theme={theme} 
+                        currentPage={currentPage} 
+                        onPageChange={handlePageChange} 
+                        availableBooks={books.map(book => book.title)}
+                        onBookSelect={(bookTitle: string) => {
+                            const book = books.find(b => b.title === bookTitle);
+                            if (book) {
+                                handleBookSelect(book);
+                            }
+                        }}
+                    />
+                )}
+            </div>
         ) : (
-          <BookList books={books} onBookSelect={handleBookSelect} title="Select a Book" />
-        )
-      ) : (
-        <Login 
-          theme={theme} 
-          toggleTheme={toggleTheme} 
-          handleLogin={handleLogin}
-          handleRegister={handleRegister} 
-        />
-      )}
+            <Login 
+                theme={theme} 
+                toggleTheme={toggleTheme} 
+                handleLogin={handleLogin}
+                handleRegister={handleRegister} 
+            />
+        )}
     </div>
   );
 }

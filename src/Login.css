@@ -14,6 +14,13 @@ body.black-and-white {
     --button-hover-background-color: #ccc;
 }
 
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 .Login {
     width: 300px;
     margin: 0 auto;
