@@ -8,6 +8,11 @@ import { Book } from "./types/Book";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [theme, setTheme] = useState("light");
+  const [books, setBooks] = useState<Book[]>([]);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [bookContent, setBookContent] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(0);
+
   const handleLogout = () => {
     setIsLoggedIn(false);
     setBooks([]);
@@ -16,10 +21,6 @@ function App() {
     setCurrentPage(0);
     localStorage.removeItem("currentUserEmail");
   };
-  const [books, setBooks] = useState<Book[]>([]);
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  const [bookContent, setBookContent] = useState<string>("");
-  const [currentPage, setCurrentPage] = useState<number>(0);
 
   const toggleTheme = () =>
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
@@ -47,9 +48,12 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      const storedBooks = localStorage.getItem("books");
-      if (storedBooks) {
-        setBooks(JSON.parse(storedBooks));
+      const email = localStorage.getItem("currentUserEmail");
+      if (email) {
+        const userBooks = localStorage.getItem(`${email}_books`);
+        if (userBooks) {
+          setBooks(JSON.parse(userBooks));
+        }
       }
     }
   }, [isLoggedIn]);
@@ -88,10 +92,24 @@ function App() {
     }
   };
 
-  const handleRegister = (email: string, password: string) => {
+  const handleRegister = async (email: string, password: string) => {
     if (email && password) {
+      const response = await fetch("/books.json");
+      if (!response.ok) {
+        alert("Failed to fetch books");
+        return;
+      }
+      const books = await response.json();
+      setBooks(books);
+
       localStorage.setItem(email, JSON.stringify({ email, password }));
+      localStorage.setItem(`${email}_books`, JSON.stringify(books));
       setIsLoggedIn(true);
+      localStorage.setItem("currentUserEmail", email);
+
+      if (books.length > 0) {
+        handleBookSelect(books[0], email);
+      }
     } else {
       alert("Please provide valid registration details");
     }
@@ -134,7 +152,6 @@ function App() {
   return (
     <div className={`App ${theme}`}>
       {isLoggedIn ? (
-    
         <div className="main-content">
           <BookList
             books={books}
@@ -165,12 +182,12 @@ function App() {
             />
           )}
           <footer>
-                    <button className="theme-toggle-button" onClick={toggleTheme}>
+            <button className="theme-toggle-button" onClick={toggleTheme}>
               Switch to {theme === "light" ? "dark" : "light"} theme
-              </button>
-              <button className="logout-button" onClick={handleLogout}>
+            </button>
+            <button className="logout-button" onClick={handleLogout}>
               Logout
-              </button>
+            </button>
           </footer>
         </div>
       ) : (
