@@ -44,13 +44,7 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      const email = localStorage.getItem("currentUserEmail");
-      if (email) {
-        const userBooks = localStorage.getItem(`${email}_books`);
-        if (userBooks) {
-          setBooks(JSON.parse(userBooks));
-        }
-      }
+      fetchBooks();
     }
   }, [isLoggedIn]);
 
@@ -61,10 +55,7 @@ function App() {
       if (user.password === password) {
         setIsLoggedIn(true);
         localStorage.setItem("currentUserEmail", email);
-        const userBooks = localStorage.getItem(`${email}_books`);
-        if (userBooks) {
-          setBooks(JSON.parse(userBooks));
-        }
+        fetchBooks();
         const lastBookId = localStorage.getItem(`${email}_lastBookId`);
         if (lastBookId) {
           const lastBook = books.find(
@@ -96,7 +87,6 @@ function App() {
       setBooks(books);
       books.forEach((book: any) => addBook(book));
       localStorage.setItem(email, JSON.stringify({ email, password }));
-      localStorage.setItem(`${email}_books`, JSON.stringify(books));
       setIsLoggedIn(true);
       localStorage.setItem("currentUserEmail", email);
       if (books.length > 0) {
@@ -153,10 +143,6 @@ function App() {
     setIsModalOpen(false);
     setNewBookTitle('');
     setNewBookContent('');
-    const email = localStorage.getItem("currentUserEmail");
-    if (email) {
-      localStorage.setItem(`${email}_books`, JSON.stringify(updatedBooks));
-    }
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {

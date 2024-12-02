@@ -80,7 +80,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center; 
-    max-width: 800px; 
+    max-width: 80%;
+    min-width: 45%; 
     margin: 0 auto; 
 }
 
