@@ -25,7 +25,6 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
             const pages: string[] = [];
             let currentPage = '';
             const maxLength = Math.floor(1850 * (18 / fontSize)*(18 / fontSize)); 
-
             sentences.forEach(sentence => {
                 if ((currentPage + sentence).length <= maxLength) {
                     currentPage += sentence + ' ';

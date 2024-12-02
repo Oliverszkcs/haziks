@@ -1,18 +1,21 @@
-import { useState, useEffect } from "react";
-import "./App.css";
+import React, { useEffect, useState } from 'react';
+import './App.css';
 import Login from "./Login";
 import BookReader from "./BookReader";
 import BookList from "./BookList";
 import Menu from "./Menu";
-import { Book } from "./types/Book";
+import { getAllBooks, getBook, addBook, addNewBook } from "./IndexedDB";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [theme, setTheme] = useState("dark");
-  const [books, setBooks] = useState<Book[]>([]);
-  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [books, setBooks] = useState<any[]>([]);
+  const [selectedBook, setSelectedBook] = useState<any>(null);
   const [bookContent, setBookContent] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [newBookTitle, setNewBookTitle] = useState<string>('');
+  const [newBookContent, setNewBookContent] = useState<string>('');
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -30,20 +33,12 @@ function App() {
     document.body.setAttribute("data-theme", theme);
   }, [theme]);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await fetch("/books.json");
-        if (!response.ok) {
-          throw new Error("Failed to fetch books");
-        }
-        const books = await response.json();
-        setBooks(books);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  const fetchBooks = async () => {
+    const books = await getAllBooks();
+    setBooks(books);
+  };
 
+  useEffect(() => {
     fetchBooks();
   }, []);
 
@@ -83,6 +78,8 @@ function App() {
             if (lastPage) {
               setCurrentPage(parseInt(lastPage, 10));
             }
+          } else {
+            localStorage.removeItem(`${email}_lastBookId`);
           }
         }
       } else {
@@ -95,19 +92,13 @@ function App() {
 
   const handleRegister = async (email: string, password: string) => {
     if (email && password) {
-      const response = await fetch("/books.json");
-      if (!response.ok) {
-        alert("Failed to fetch books");
-        return;
-      }
-      const books = await response.json();
+      const books = await getAllBooks();
       setBooks(books);
-
+      books.forEach((book: any) => addBook(book));
       localStorage.setItem(email, JSON.stringify({ email, password }));
       localStorage.setItem(`${email}_books`, JSON.stringify(books));
       setIsLoggedIn(true);
       localStorage.setItem("currentUserEmail", email);
-
       if (books.length > 0) {
         handleBookSelect(books[0], email);
       }
@@ -116,25 +107,23 @@ function App() {
     }
   };
 
-  const handleBookSelect = async (book: Book, email: string) => {
+  const handleBookSelect = async (book: any, email: string) => {
     setSelectedBook(book);
-    const filePath = `/${book.filePath}`;
-    try {
-      const response = await fetch(filePath);
-      if (!response.ok) {
-        throw new Error("Failed to fetch book content");
-      }
+    const storedBook = await getBook(book.id);
+    if (storedBook) {
+      setBookContent(storedBook.content);
+    } else {
+      const response = await fetch(`/${book.content}`);
       const text = await response.text();
       setBookContent(text);
-      setCurrentPage(0);
-      const lastPage = localStorage.getItem(`${email}_${book.id}_currentPage`);
-      if (lastPage) {
-        setCurrentPage(parseInt(lastPage, 10));
-      }
-      localStorage.setItem(`${email}_lastBookId`, book.id.toString());
-    } catch (error) {
-      console.error(error);
+      addBook({ ...book, content: text });
     }
+    setCurrentPage(0);
+    const lastPage = localStorage.getItem(`${email}_${book.id}_currentPage`);
+    if (lastPage) {
+      setCurrentPage(parseInt(lastPage, 10));
+    }
+    localStorage.setItem(`${email}_lastBookId`, book.id.toString());
   };
 
   const handlePageChange = (page: number) => {
@@ -147,6 +136,37 @@ function App() {
           page.toString()
         );
       }
+    }
+  };
+
+  const handleAddNewBook = async () => {
+    const maxId = books.reduce((max, book) => (book.id > max ? book.id : max), 0);
+    const newBook = {
+      id: maxId + 1,
+      title: newBookTitle,
+      filePath: `book${maxId + 1}.txt`,
+      content: newBookContent
+    };
+    await addNewBook(newBook);
+    const updatedBooks = [...books, newBook];
+    setBooks(updatedBooks);
+    setIsModalOpen(false);
+    setNewBookTitle('');
+    setNewBookContent('');
+    const email = localStorage.getItem("currentUserEmail");
+    if (email) {
+      localStorage.setItem(`${email}_books`, JSON.stringify(updatedBooks));
+    }
+  };
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setNewBookContent(e.target?.result as string);
+      };
+      reader.readAsText(file);
     }
   };
 
@@ -164,7 +184,7 @@ function App() {
             }
             title="Available Books"
           />
-          {selectedBook && (
+          {selectedBook ? (
             <BookReader
               bookContent={bookContent}
               theme={theme}
@@ -180,12 +200,13 @@ function App() {
                   );
                 }
               }}
-              
             />
-            
+          ) : (
+            <div className="book-reader"></div>
           )}
           <div className="separator"></div>
-            <Menu onThemeChange={toggleTheme} onLogout={handleLogout} />
+          <Menu onThemeChange={toggleTheme} onLogout={handleLogout} />
+          <button onClick={() => setIsModalOpen(true)}>Add New Book</button>
         </div>
       ) : (
         <Login
@@ -194,6 +215,27 @@ function App() {
           handleLogin={handleLogin}
           handleRegister={handleRegister}
         />
+      )}
+      {isModalOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Add New Book</h2>
+            <label>
+              Title:
+              <input
+                type="text"
+                value={newBookTitle}
+                onChange={(e) => setNewBookTitle(e.target.value)}
+              />
+            </label>
+            <label>
+              Content:
+              <input type="file" accept=".txt" onChange={handleFileUpload} />
+            </label>
+            <button onClick={handleAddNewBook}>Add Book</button>
+            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
+          </div>
+        </div>
       )}
     </div>
   );
