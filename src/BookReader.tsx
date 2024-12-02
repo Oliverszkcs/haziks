@@ -124,7 +124,7 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
                         id="font-size"
                         value={fontSize}
                         onChange={handleFontSizeChange}
-                        min="10"
+                        min="11"
                         max="30"
                     />
                 </div>
