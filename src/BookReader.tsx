@@ -16,16 +16,18 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [searchResults, setSearchResults] = useState<number[]>([]);
     const [currentSearchIndex, setCurrentSearchIndex] = useState<number>(0);
+    const [fontSize, setFontSize] = useState<number>(16);
     const contentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const paginateText = (text: string) => {
+        const paginateText = (text: string, fontSize: number) => {
             const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
             const pages: string[] = [];
             let currentPage = '';
+            const maxLength = Math.floor(1850 * (18 / fontSize)*(18 / fontSize)); 
 
             sentences.forEach(sentence => {
-                if ((currentPage + sentence).length <= 1850) {
+                if ((currentPage + sentence).length <= maxLength) {
                     currentPage += sentence + ' ';
                 } else {
                     pages.push(currentPage.trim());
@@ -40,8 +42,8 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
             return pages;
         };
 
-        setPages(paginateText(bookContent));
-    }, [bookContent]);
+        setPages(paginateText(bookContent, fontSize));
+    }, [bookContent, fontSize]);
 
     const changePage = (offset: number) => {
         const newPage = currentPage + offset;
@@ -88,6 +90,10 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
         );
     };
 
+    const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFontSize(parseInt(event.target.value, 10));
+    };
+
     return (
         <div className="book-reader" style={{ background: theme }}>
             <div className="content-wrapper">
@@ -111,7 +117,18 @@ const BookReader: React.FC<BookReaderProps> = ({ bookContent, theme, currentPage
                     onNextResult={nextSearchResult}
                     onPrevResult={prevSearchResult}
                 />
-                <div ref={contentRef} className="book-content">
+                <div className="font-size-control">
+                    <label htmlFor="font-size">Font Size: </label>
+                    <input
+                        type="number"
+                        id="font-size"
+                        value={fontSize}
+                        onChange={handleFontSizeChange}
+                        min="10"
+                        max="30"
+                    />
+                </div>
+                <div ref={contentRef} className="book-content" style={{ fontSize: `${fontSize}px` }}>
                     <p>{highlightText(pages[currentPage], searchTerm)}</p>
                 </div>
             </div>

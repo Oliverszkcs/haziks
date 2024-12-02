@@ -8,7 +8,7 @@ import { Book } from "./types/Book";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [theme, setTheme] = useState("light");
+  const [theme, setTheme] = useState("dark");
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [bookContent, setBookContent] = useState<string>("");

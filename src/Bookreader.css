@@ -52,6 +52,10 @@
     cursor: not-allowed;
 }
 
+.font-size-control {
+    margin-bottom: 20px;
+}
+
 .book-content {
     overflow: hidden;
     text-align: center;
