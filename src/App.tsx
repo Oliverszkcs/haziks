@@ -39,49 +39,6 @@ function App() {
     setBooks(books);
   };
 
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      fetchBooks();
-    }
-  }, [isLoggedIn]);
-
-  const handleLogin = (email: string, password: string) => {
-    const storedUser = localStorage.getItem(email);
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      if (user.password === password) {
-        setIsLoggedIn(true);
-        localStorage.setItem("currentUserEmail", email);
-        fetchBooks();
-        const lastBookId = localStorage.getItem(`${email}_lastBookId`);
-        if (lastBookId) {
-          const lastBook = books.find(
-            (book) => book.id === parseInt(lastBookId, 10)
-          );
-          if (lastBook) {
-            handleBookSelect(lastBook, email);
-            const lastPage = localStorage.getItem(
-              `${email}_${lastBookId}_currentPage`
-            );
-            if (lastPage) {
-              setCurrentPage(parseInt(lastPage, 10));
-            } else {
-              localStorage.removeItem(`${email}_lastBookId`);
-            }
-          }
-        }
-      } else {
-        alert("Invalid login credentials");
-      }
-    } else {
-      alert("User not found with the given credentials");
-    }
-  };
-
   const handleRegister = async (email: string, password: string) => {
     if (email && password) {
       const books = await getAllBooks();
@@ -204,8 +161,15 @@ function App() {
         <Login
           theme={theme}
           toggleTheme={toggleTheme}
-          handleLogin={handleLogin}
           handleRegister={handleRegister}
+          setIsLoggedIn={setIsLoggedIn}
+          setBooks={setBooks}
+          setSelectedBook={setSelectedBook}
+          setBookContent={setBookContent}
+          setCurrentPage={setCurrentPage}
+          fetchBooks={fetchBooks}
+          books={books}
+          handleBookSelect={handleBookSelect}
         />
       )}
       <Modal
