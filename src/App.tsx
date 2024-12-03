@@ -4,6 +4,7 @@ import Login from "./Login";
 import BookReader from "./BookReader";
 import BookList from "./BookList";
 import Menu from "./Menu";
+import Modal from "./Modal"; 
 import { getAllBooks, getBook, addBook, addNewBook } from "./IndexedDB";
 
 function App() {
@@ -196,7 +197,7 @@ function App() {
           <Menu
             onThemeChange={toggleTheme}
             onLogout={handleLogout}
-            onAddNewBook={() => setIsModalOpen(true)} 
+            onAddNewBook={() => setIsModalOpen(true)}
           />
         </div>
       ) : (
@@ -207,27 +208,14 @@ function App() {
           handleRegister={handleRegister}
         />
       )}
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Add New Book</h2>
-            <label>
-              Title:
-              <input
-                type="text"
-                value={newBookTitle}
-                onChange={(e) => setNewBookTitle(e.target.value)}
-              />
-            </label>
-            <label>
-              Content:
-              <input type="file" accept=".txt" onChange={handleFileUpload} />
-            </label>
-            <button onClick={handleAddNewBook}>Add Book</button>
-            <button onClick={() => setIsModalOpen(false)}>Cancel</button>
-          </div>
-        </div>
-      )}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onAddNewBook={handleAddNewBook}
+        newBookTitle={newBookTitle}
+        setNewBookTitle={setNewBookTitle}
+        handleFileUpload={handleFileUpload}
+      />
     </div>
   );
 }
