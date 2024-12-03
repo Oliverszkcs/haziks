@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
 import Login from "./Login";
 import BookReader from "./BookReader";
 import BookList from "./BookList";
@@ -14,8 +14,8 @@ function App() {
   const [bookContent, setBookContent] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [newBookTitle, setNewBookTitle] = useState<string>('');
-  const [newBookContent, setNewBookContent] = useState<string>('');
+  const [newBookTitle, setNewBookTitle] = useState<string>("");
+  const [newBookContent, setNewBookContent] = useState<string>("");
 
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -130,19 +130,21 @@ function App() {
   };
 
   const handleAddNewBook = async () => {
-    const maxId = books.reduce((max, book) => (book.id > max ? book.id : max), 0);
+    const maxId = books.reduce(
+      (max, book) => (book.id > max ? book.id : max),
+      0
+    );
     const newBook = {
       id: maxId + 1,
       title: newBookTitle,
-      filePath: `book${maxId + 1}.txt`,
-      content: newBookContent
+      content: newBookContent,
     };
     await addNewBook(newBook);
     const updatedBooks = [...books, newBook];
     setBooks(updatedBooks);
     setIsModalOpen(false);
-    setNewBookTitle('');
-    setNewBookContent('');
+    setNewBookTitle("");
+    setNewBookContent("");
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
