@@ -68,9 +68,9 @@ function App() {
             );
             if (lastPage) {
               setCurrentPage(parseInt(lastPage, 10));
+            } else {
+              localStorage.removeItem(`${email}_lastBookId`);
             }
-          } else {
-            localStorage.removeItem(`${email}_lastBookId`);
           }
         }
       } else {
@@ -193,8 +193,11 @@ function App() {
             <div className="book-reader"></div>
           )}
           <div className="separator"></div>
-          <Menu onThemeChange={toggleTheme} onLogout={handleLogout} />
-          <button onClick={() => setIsModalOpen(true)}>Add New Book</button>
+          <Menu
+            onThemeChange={toggleTheme}
+            onLogout={handleLogout}
+            onAddNewBook={() => setIsModalOpen(true)} 
+          />
         </div>
       ) : (
         <Login
