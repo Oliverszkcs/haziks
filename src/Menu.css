@@ -16,9 +16,9 @@
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
-  white-space: nowrap; 
-  width: 100%; 
-  text-align: center; 
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
   min-width: fit-content;
   margin-bottom: 10px;
 }
@@ -31,15 +31,15 @@
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
-  white-space: nowrap; 
-  width: 100%; 
-  text-align: center; 
+  white-space: nowrap;
+  width: 100%;
+  text-align: center;
   min-width: fit-content;
   margin-bottom: 10px;
 }
 
-.theme-toggle-button:hover, .logout-button:hover {
+.theme-toggle-button:hover,
+.logout-button:hover {
   background-color: var(--button-hover-background-color);
   color: var(--text-color);
 }
-

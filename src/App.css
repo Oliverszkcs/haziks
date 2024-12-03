@@ -10,13 +10,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(14px + 3vmin); 
+  font-size: calc(14px + 3vmin);
   color: white;
 }
 
 .App-link {
   color: #61dafb;
-  font-size: 1.5em; 
+  font-size: 1.5em;
 }
 
 :root {
@@ -34,7 +34,7 @@
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-  font-size: 1.2em; 
+  font-size: 1.2em;
 }
 
 .App-link {
@@ -42,47 +42,47 @@ body {
 }
 
 .main-content {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    align-items: flex-start; 
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  align-items: flex-start;
 }
 
 .book-list {
-  width: 15%; 
+  width: 15%;
   border-right: 1px solid var(--border-color);
   padding: 20px;
   overflow-y: auto;
-  height: 100vh; 
-  min-width: 200px; 
+  height: 100vh;
+  min-width: 200px;
 }
 
 .book-list-items {
-    list-style-type: none;
-    padding: 0;
+  list-style-type: none;
+  padding: 0;
 }
 
 .book-list-item {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid var(--border-color);
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .book-list-item:hover {
-    background-color: var(--button-hover-background-color);
+  background-color: var(--button-hover-background-color);
 }
 
 .book-reader {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-    height: 100vh; 
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    max-width: 80%;
-    min-width: 45%; 
-    margin: 0 auto; 
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 80%;
+  min-width: 45%;
+  margin: 0 auto;
 }
 
 .book-content {
@@ -94,4 +94,3 @@ body {
   height: fill-available;
   background-color: var(--text-color);
 }
-

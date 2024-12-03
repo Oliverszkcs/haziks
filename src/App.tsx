@@ -4,7 +4,7 @@ import Login from "./Login";
 import BookReader from "./BookReader";
 import BookList from "./BookList";
 import Menu from "./Menu";
-import Modal from "./Modal"; 
+import Modal from "./Modal";
 import { getAllBooks, getBook, addBook, addNewBook } from "./IndexedDB";
 
 function App() {

@@ -1,5 +1,5 @@
-import React from 'react';
-import './Modal.css';
+import React from "react";
+import "./Modal.css";
 
 interface ModalProps {
   isOpen: boolean;
@@ -16,7 +16,7 @@ const Modal: React.FC<ModalProps> = ({
   onAddNewBook,
   newBookTitle,
   setNewBookTitle,
-  handleFileUpload
+  handleFileUpload,
 }) => {
   if (!isOpen) return null;
 
@@ -36,7 +36,16 @@ const Modal: React.FC<ModalProps> = ({
           Content:
           <input type="file" accept=".txt" onChange={handleFileUpload} />
         </label>
-        <button onClick={onAddNewBook}>Add Book</button>
+        <button
+          onClick={onAddNewBook}
+          disabled={
+            !newBookTitle ||
+            !(document.querySelector('input[type="file"]') as HTMLInputElement)
+              ?.files?.length
+          }
+        >
+          Add Book
+        </button>
         <button onClick={onClose}>Cancel</button>
       </div>
     </div>

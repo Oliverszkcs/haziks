@@ -7,34 +7,34 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background: var(--background-color);
     padding: 20px;
     border-radius: 5px;
     text-align: left;
-    border:   1px solid var(--border-color);
-  }
-  
-  .modal-content label {
+    border: 1px solid var(--border-color);
+}
+
+.modal-content label {
     display: block;
     margin: 10px 0;
-  }
-  
-  .modal-content input[type="text"] {
+}
+
+.modal-content input[type="text"] {
     width: 80%;
     padding: 8px;
     margin-top: 5px;
-    color : var(--background-color);
-  }
-  
-  .modal-content input[type="file"] {
+    color: var(--background-color);
+}
+
+.modal-content input[type="file"] {
     margin-top: 5px;
-  }
-  
-  .modal-content button {
+}
+
+.modal-content button {
     margin: 10px 5px 0 0;
     padding: 10px 20px;
     cursor: pointer;
-  }
+}
