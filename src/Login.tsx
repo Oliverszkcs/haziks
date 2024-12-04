@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Login.css";
+import { getAllBooks, addBook } from "./IndexedDB";
 
 interface LoginProps {
-  handleRegister: (email: string, password: string) => void;
   theme: string;
   toggleTheme: () => void;
   setIsLoggedIn: (isLoggedIn: boolean) => void;
@@ -16,7 +16,6 @@ interface LoginProps {
 }
 
 export function Login({
-  handleRegister,
   theme,
   toggleTheme,
   setIsLoggedIn,
@@ -83,6 +82,22 @@ export function Login({
       }
     } else {
       alert("User not found with the given credentials");
+    }
+  };
+
+  const handleRegister = async (email: string, password: string) => {
+    if (email && password) {
+      const books = await getAllBooks();
+      setBooks(books);
+      books.forEach((book: any) => addBook(book));
+      localStorage.setItem(email, JSON.stringify({ email, password }));
+      setIsLoggedIn(true);
+      localStorage.setItem("currentUserEmail", email);
+      if (books.length > 0) {
+        handleBookSelect(books[0], email);
+      }
+    } else {
+      alert("Please provide valid registration details");
     }
   };
 

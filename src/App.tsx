@@ -5,7 +5,8 @@ import BookReader from "./BookReader";
 import BookList from "./BookList";
 import Menu from "./Menu";
 import Modal from "./Modal";
-import { getAllBooks, getBook, addBook, addNewBook } from "./IndexedDB";
+import { getAllBooks, addBook, addNewBook } from "./IndexedDB";
+import { handleBookSelect, handlePageChange, handleAddNewBook } from "./BookActions";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,72 +40,6 @@ function App() {
     setBooks(books);
   };
 
-  const handleRegister = async (email: string, password: string) => {
-    if (email && password) {
-      const books = await getAllBooks();
-      setBooks(books);
-      books.forEach((book: any) => addBook(book));
-      localStorage.setItem(email, JSON.stringify({ email, password }));
-      setIsLoggedIn(true);
-      localStorage.setItem("currentUserEmail", email);
-      if (books.length > 0) {
-        handleBookSelect(books[0], email);
-      }
-    } else {
-      alert("Please provide valid registration details");
-    }
-  };
-
-  const handleBookSelect = async (book: any, email: string) => {
-    setSelectedBook(book);
-    const storedBook = await getBook(book.id);
-    if (storedBook) {
-      setBookContent(storedBook.content);
-    } else {
-      const response = await fetch(`/${book.content}`);
-      const text = await response.text();
-      setBookContent(text);
-      addBook({ ...book, content: text });
-    }
-    setCurrentPage(0);
-    const lastPage = localStorage.getItem(`${email}_${book.id}_currentPage`);
-    if (lastPage) {
-      setCurrentPage(parseInt(lastPage, 10));
-    }
-    localStorage.setItem(`${email}_lastBookId`, book.id.toString());
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    if (selectedBook) {
-      const email = localStorage.getItem("currentUserEmail");
-      if (email) {
-        localStorage.setItem(
-          `${email}_${selectedBook.id}_currentPage`,
-          page.toString()
-        );
-      }
-    }
-  };
-
-  const handleAddNewBook = async () => {
-    const maxId = books.reduce(
-      (max, book) => (book.id > max ? book.id : max),
-      0
-    );
-    const newBook = {
-      id: maxId + 1,
-      title: newBookTitle,
-      content: newBookContent,
-    };
-    await addNewBook(newBook);
-    const updatedBooks = [...books, newBook];
-    setBooks(updatedBooks);
-    setIsModalOpen(false);
-    setNewBookTitle("");
-    setNewBookContent("");
-  };
-
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -125,7 +60,10 @@ function App() {
             onBookSelect={(book) =>
               handleBookSelect(
                 book,
-                localStorage.getItem("currentUserEmail") || ""
+                localStorage.getItem("currentUserEmail") || "",
+                setSelectedBook,
+                setBookContent,
+                setCurrentPage
               )
             }
             title="Available Books"
@@ -135,14 +73,19 @@ function App() {
               bookContent={bookContent}
               theme={theme}
               currentPage={currentPage}
-              onPageChange={handlePageChange}
+              onPageChange={(page) =>
+                handlePageChange(page, selectedBook, setCurrentPage)
+              }
               availableBooks={books.map((book) => book.title)}
               onBookSelect={(bookTitle: string) => {
                 const book = books.find((b) => b.title === bookTitle);
                 if (book) {
                   handleBookSelect(
                     book,
-                    localStorage.getItem("currentUserEmail") || ""
+                    localStorage.getItem("currentUserEmail") || "",
+                    setSelectedBook,
+                    setBookContent,
+                    setCurrentPage
                   );
                 }
               }}
@@ -161,7 +104,6 @@ function App() {
         <Login
           theme={theme}
           toggleTheme={toggleTheme}
-          handleRegister={handleRegister}
           setIsLoggedIn={setIsLoggedIn}
           setBooks={setBooks}
           setSelectedBook={setSelectedBook}
@@ -169,13 +111,31 @@ function App() {
           setCurrentPage={setCurrentPage}
           fetchBooks={fetchBooks}
           books={books}
-          handleBookSelect={handleBookSelect}
+          handleBookSelect={(book, email) =>
+            handleBookSelect(
+              book,
+              email,
+              setSelectedBook,
+              setBookContent,
+              setCurrentPage
+            )
+          }
         />
       )}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onAddNewBook={handleAddNewBook}
+        onAddNewBook={() =>
+          handleAddNewBook(
+            books,
+            newBookTitle,
+            newBookContent,
+            setBooks,
+            setIsModalOpen,
+            setNewBookTitle,
+            setNewBookContent
+          )
+        }
         newBookTitle={newBookTitle}
         setNewBookTitle={setNewBookTitle}
         handleFileUpload={handleFileUpload}
