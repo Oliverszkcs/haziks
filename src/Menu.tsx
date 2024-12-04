@@ -1,5 +1,5 @@
 import React from "react";
-import "./Menu.css";
+import "./styles/Menu.css";
 
 interface MenuProps {
   onThemeChange: () => void;

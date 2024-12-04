@@ -1,5 +1,5 @@
 import React from "react";
-import "./SearhBar.css";
+import "./styles/SearhBar.css";
 
 interface SearchBarProps {
   searchTerm: string;

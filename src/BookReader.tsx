@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./Bookreader.css";
+import "./styles/Bookreader.css";
 import SearchBar from "./SearchBar";
 
 interface BookReaderProps {
