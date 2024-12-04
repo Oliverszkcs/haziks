@@ -10,6 +10,16 @@ interface ModalProps {
   handleFileUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+/**
+ * Az uj konyv hozzaadasa "menuje".
+ * @param isOpen A lathatosag jelenlegi allapota.
+ * @param onClose A modal bezarasa esemenykezeloje.
+ * @param onAddNewBook Az uj konyv hozzadasank esemenykezeloje.
+ * @param newBookTitle Az uj konyv cime.
+ * @param setNewBookTitle Az uj konyv cimet beallito fuggveny.
+ * @param handleFileUpload A fajl feltoltes esemenykezeloje.
+ * @returns a modal(uj hozzadas menu) html kodja.
+ */
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,

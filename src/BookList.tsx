@@ -6,7 +6,13 @@ interface BookListProps {
   onBookSelect: (book: Book) => void;
   title: string;
 }
-
+/**
+ * Ez visszadja a konyvek listajat.
+ * @param books A konyvek listaja.
+ * @param onBookSelect A konvy kivalasztas esemenykezeloje.
+ * @param title A megjelenitendo konyv listajanak cime.
+ * @returns A konyvek listajanak html kodja.
+ */
 const BookList: React.FC<BookListProps> = ({ books, onBookSelect, title }) => {
   return (
     <div className="book-list">

@@ -6,7 +6,11 @@ import BookList from "./BookList";
 import Menu from "./Menu";
 import Modal from "./Modal";
 import { getAllBooks, addBook, addNewBook } from "./IndexedDB";
-import { handleBookSelect, handlePageChange, handleAddNewBook } from "./BookActions";
+import {
+  handleBookSelect,
+  handlePageChange,
+  handleAddNewBook,
+} from "./BookActions";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,6 +23,9 @@ function App() {
   const [newBookTitle, setNewBookTitle] = useState<string>("");
   const [newBookContent, setNewBookContent] = useState<string>("");
 
+  /**
+   * Kezeli a kijelentkezést, kileptet, es torli a tarolt adatokat.
+   */
   const handleLogout = () => {
     setIsLoggedIn(false);
     setBooks([]);
@@ -28,18 +35,32 @@ function App() {
     localStorage.removeItem("currentUserEmail");
   };
 
+  /**
+   * Beallitja a temat az osszes elemen.
+   */
   const toggleTheme = () =>
     setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
 
+  /**
+   * Kezeli a temavaltozast.
+   */
   useEffect(() => {
     document.body.setAttribute("data-theme", theme);
   }, [theme]);
 
+  /**
+   * Betolti az osszes konyvet az adatbazisbol.
+   */
   const fetchBooks = async () => {
     const books = await getAllBooks();
     setBooks(books);
   };
 
+  /**
+   *
+   * @param event ez a parameter tartalmazza az input informaciot.
+   * Kezeli a fajl feltolteset a html inputbol.
+   */
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {

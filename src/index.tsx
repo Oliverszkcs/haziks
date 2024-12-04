@@ -4,6 +4,9 @@ import "./styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+/**
+ * Alapveto fajl a megjeleniteshez. (A tepmlate app tartalma)
+ */
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

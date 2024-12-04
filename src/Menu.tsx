@@ -6,7 +6,13 @@ interface MenuProps {
   onLogout: () => void;
   onAddNewBook: () => void;
 }
-
+/**
+ * Ez a menu komponens.
+ * @param onThemeChange A tema valtas esemenykezeloje.
+ * @param onLogout A kijelentkezes esemenykezeloje.
+ * @param onAddNewBook Az uj konyv hozzadasanak esemenykezeloje.
+ * @returns visszaadja a menu html kodjat.
+ */
 const Menu: React.FC<MenuProps> = ({
   onThemeChange,
   onLogout,

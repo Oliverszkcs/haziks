@@ -11,6 +11,17 @@ interface SearchBarProps {
   onPrevResult: () => void;
 }
 
+/**
+ * A szovegben valo keresest megvalosito fuggveny.
+ * @param searchTerm A keresett kifejezes.
+ * @param onSearchTermChange A kifejezes valtozasat kezelo fuggveny.
+ * @param onSearch A kereses esemenykezeloje.
+ * @param searchResults A kereses eredmenyei.
+ * @param currentSearchIndex Az aktualis keresesi talalta indexe.
+ * @param onNextResult A kovetkezo talalat esemenykezeloje.
+ * @param onPrevResult Az elozo talalat esemenykezeloje.
+ * @returns A kereso mezot es a navigacios gombokat tartalmazo komponens html kodja.
+ */
 const SearchBar: React.FC<SearchBarProps> = ({
   searchTerm,
   onSearchTermChange,

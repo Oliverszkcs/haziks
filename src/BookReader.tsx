@@ -11,6 +11,16 @@ interface BookReaderProps {
   onBookSelect: (book: string) => void;
 }
 
+/**
+ * Ez a konyv kozepso komponensee ahol a konyv olvasasa valosul meg.
+ * @param bookContent A kivalasztott konyv tartalma.
+ * @param theme Az aktualis tema.
+ * @param currentPage Az aktualis oldalszam.
+ * @param onPageChange Az oldalvaltas esemenykezeloje.
+ * @param availableBooks Az elerheto konyvek listaja.
+ * @param onBookSelect A konyv kivalasztas kezelesenek fuggvenye.
+ * @returns a konvy olvaso komponens html kodja.
+ */
 const BookReader: React.FC<BookReaderProps> = ({
   bookContent,
   theme,
@@ -26,12 +36,24 @@ const BookReader: React.FC<BookReaderProps> = ({
   const [fontSize, setFontSize] = useState<number>(16);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * A konyv tartalmanak oldalakra bontasa, minden uj oldal a mondat befejezesvel kezdodik,
+   *  tehat nincs felbehagyott mondat.
+   * @param text A konyv tartalma stringkent.
+   * @param fontSize Az aktualis betumeret.
+   */
   useEffect(() => {
     const paginateText = (text: string, fontSize: number) => {
-      const sentences = text.match(/[^.!?]+[.!?]+/g) || [];
+      const sentences = text.match(/[^.!?]+[.!?]+/g) || []; // Darabolja a szoveget mondatokra, a megadott mondatkifejezo jelek alapjan.
       const pages: string[] = [];
       let currentPage = "";
+
+      // Az oldal maximalis hossza, a betumeret fuggvenyeben, azert hogy ne logjon ki a szoveg.
       const maxLength = Math.floor(1850 * (16 / fontSize) * (16 / fontSize));
+
+      /**
+       * A mondatokat hozzadja  az adott oldalhoz.
+       */
       sentences.forEach((sentence) => {
         if ((currentPage + sentence).length <= maxLength) {
           currentPage += sentence + " ";
@@ -48,18 +70,32 @@ const BookReader: React.FC<BookReaderProps> = ({
       return pages;
     };
 
+    /**
+     * Az oldalak beallitasa a konyv tartalma alapjan.
+     * Ez azert kell mert a betumeret valtozhat.
+     */
     setPages(paginateText(bookContent, fontSize));
   }, [bookContent, fontSize]);
 
-  const changePage = (offset: number) => {
-    const newPage = currentPage + offset;
+  /**
+   * Lapozas kezelese
+   */
+  const changePage = (lastPage: number) => {
+    const newPage = currentPage + lastPage;
     if (newPage >= 0 && newPage < pages.length) {
       onPageChange(newPage);
     }
   };
 
+  /**
+   * A szovegben valo keresest valositja meg.
+   */
   const handleSearch = () => {
     const results: number[] = [];
+
+    /**
+     * Megkeresi az osszes oldalt ahol a keresett szo szerepel.
+     */
     pages.forEach((page, index) => {
       if (page.includes(searchTerm)) {
         results.push(index);
@@ -72,6 +108,9 @@ const BookReader: React.FC<BookReaderProps> = ({
     }
   };
 
+  /**
+   * A kovetkezo keresesi eredmenyt mutatja meg.
+   */
   const nextSearchResult = () => {
     if (currentSearchIndex < searchResults.length - 1) {
       const newIndex = currentSearchIndex + 1;
@@ -80,6 +119,9 @@ const BookReader: React.FC<BookReaderProps> = ({
     }
   };
 
+  /**
+   * Ugyanaz mint a a fenti csak masik iranyban.
+   */
   const prevSearchResult = () => {
     if (currentSearchIndex > 0) {
       const newIndex = currentSearchIndex - 1;
@@ -88,6 +130,12 @@ const BookReader: React.FC<BookReaderProps> = ({
     }
   };
 
+  /**
+   * A kereses eredemenyeit kiemeli a szovegben.
+   * @param text A konyv tartalma.
+   * @param term A keresett kifejezes.
+   * @returns Atszinezett szoveg.
+   */
   const highlightText = (text: string, term: string) => {
     if (!term) return text;
     const parts = text.split(new RegExp(`(${term})`, "gi"));
@@ -100,6 +148,9 @@ const BookReader: React.FC<BookReaderProps> = ({
     );
   };
 
+  /**
+   * A betumeret valtoztatasat kezeli.
+   */
   const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFontSize(parseInt(event.target.value, 10));
   };
