@@ -6,12 +6,12 @@ import BookList from "./BookList";
 import Menu from "./Menu";
 import Modal from "./Modal";
 import { getAllBooks, addBook, addNewBook } from "./IndexedDB";
-import {
-  handleBookSelect,
-  handlePageChange,
-  handleAddNewBook,
-} from "./BookActions";
+import {handleBookSelect, handlePageChange, handleAddNewBook,} from "./BookActions";
 
+/**
+ * Az alkalamazas fo komponense.
+ * @returns A html kod ami szukeseges az alkalmazas futtatasahoz.
+ */
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [theme, setTheme] = useState("dark");
@@ -24,7 +24,7 @@ function App() {
   const [newBookContent, setNewBookContent] = useState<string>("");
 
   /**
-   * Kezeli a kijelentkezést, kileptet, es torli a tarolt adatokat.
+   * Kezeli a kijelentkezest, kileptet, es torli a tarolt adatokat.
    */
   const handleLogout = () => {
     setIsLoggedIn(false);
@@ -57,9 +57,8 @@ function App() {
   };
 
   /**
-   *
+   *Kezeli a fajl feltolteset a html inputbol.
    * @param event ez a parameter tartalmazza az input informaciot.
-   * Kezeli a fajl feltolteset a html inputbol.
    */
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];

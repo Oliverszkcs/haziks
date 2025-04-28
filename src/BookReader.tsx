@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./styles/Bookreader.css";
 import SearchBar from "./SearchBar";
+import { Console, log } from "console";
 
 interface BookReaderProps {
   bookContent: string;
@@ -101,6 +102,7 @@ const BookReader: React.FC<BookReaderProps> = ({
         results.push(index);
       }
     });
+    
     setSearchResults(results);
     if (results.length > 0) {
       setCurrentSearchIndex(0);
@@ -120,7 +122,7 @@ const BookReader: React.FC<BookReaderProps> = ({
   };
 
   /**
-   * Ugyanaz mint a a fenti csak masik iranyban.
+   * Ugyanaz mint a a fenti csak
    */
   const prevSearchResult = () => {
     if (currentSearchIndex > 0) {
@@ -130,12 +132,6 @@ const BookReader: React.FC<BookReaderProps> = ({
     }
   };
 
-  /**
-   * A kereses eredemenyeit kiemeli a szovegben.
-   * @param text A konyv tartalma.
-   * @param term A keresett kifejezes.
-   * @returns Atszinezett szoveg.
-   */
   const highlightText = (text: string, term: string) => {
     if (!term) return text;
     const parts = text.split(new RegExp(`(${term})`, "gi"));
@@ -148,9 +144,6 @@ const BookReader: React.FC<BookReaderProps> = ({
     );
   };
 
-  /**
-   * A betumeret valtoztatasat kezeli.
-   */
   const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFontSize(parseInt(event.target.value, 10));
   };
